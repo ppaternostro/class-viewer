@@ -110,8 +110,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     looks = new JRadioButtonMenuItem[installedLooks.length];
 
     /* Create actions for common menu and toolbar items */
-    Action openAction = new AbstractAction(null, new ImageIcon(ClassLoader
-        .getSystemResource("images/open.gif"))) {
+    Action openAction = new AbstractAction(null,
+        new ImageIcon(ClassLoader.getSystemResource("images/open.gif"))) {
       public void actionPerformed(ActionEvent evt)
       {
         jfc = new JFileChooser();
@@ -133,24 +133,22 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       }
     };
 
-    Action exitAction = new AbstractAction(null, new ImageIcon(ClassLoader
-        .getSystemResource("images/exit.gif"))) {
+    Action exitAction = new AbstractAction(null,
+        new ImageIcon(ClassLoader.getSystemResource("images/exit.gif"))) {
       public void actionPerformed(ActionEvent evt)
       {
-        dispatchEvent(new WindowEvent(ClassViewerFrame.this,
-            WindowEvent.WINDOW_CLOSING));
+        dispatchEvent(
+            new WindowEvent(ClassViewerFrame.this, WindowEvent.WINDOW_CLOSING));
       }
     };
 
-    Action aboutAction = new AbstractAction(null, new ImageIcon(ClassLoader
-        .getSystemResource("images/help.gif"))) {
+    Action aboutAction = new AbstractAction(null,
+        new ImageIcon(ClassLoader.getSystemResource("images/help.gif"))) {
       public void actionPerformed(ActionEvent evt)
       {
-        JOptionPane
-            .showMessageDialog(
-                ClassViewerFrame.this,
-                "<html><center>ClassViewer Application<br>Pat Paternostro<br>Copyright © 2004-2008</center></html>",
-                "About ClassViewer", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(ClassViewerFrame.this,
+            "<html><center>ClassViewer Application<br>Pat Paternostro<br>Copyright ï¿½ 2004-2008</center></html>",
+            "About ClassViewer", JOptionPane.INFORMATION_MESSAGE);
       }
     };
 
@@ -384,8 +382,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
-          JOptionPane.showMessageDialog(ClassViewerFrame.this, cnfe
-              .getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(ClassViewerFrame.this,
+              cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
     }
@@ -406,8 +404,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
-          JOptionPane.showMessageDialog(ClassViewerFrame.this, cnfe
-              .getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(ClassViewerFrame.this,
+              cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
     }
@@ -434,9 +432,9 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     Field fields[] = c.getDeclaredFields();
 
     /* Build the class signature */
-    StringBuffer sb = new StringBuffer(150).append(
-        Modifier.toString(c.getModifiers())).append(
-        c.isInterface() ? " " : " class ").append(c.getName());
+    StringBuffer sb = new StringBuffer(150)
+        .append(Modifier.toString(c.getModifiers()))
+        .append(c.isInterface() ? " " : " class ").append(c.getName());
 
     if (c.getSuperclass() != null)
       sb.append(" extends ").append(c.getSuperclass().getName());
@@ -492,12 +490,12 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
       if (!(member instanceof Field[]))
       {
-        param = member instanceof Constructor<?>[] ? ((Constructor<?>) member[i])
-            .getParameterTypes()
+        param = member instanceof Constructor<?>[]
+            ? ((Constructor<?>) member[i]).getParameterTypes()
             : ((Method) member[i]).getParameterTypes();
 
-        except = member instanceof Constructor<?>[] ? ((Constructor<?>) member[i])
-            .getExceptionTypes()
+        except = member instanceof Constructor<?>[]
+            ? ((Constructor<?>) member[i]).getExceptionTypes()
             : ((Method) member[i]).getExceptionTypes();
 
         sb.append("(");
