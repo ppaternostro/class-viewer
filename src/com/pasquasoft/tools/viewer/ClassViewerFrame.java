@@ -54,10 +54,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
    */
   private static final long serialVersionUID = 4173076731993434776L;
 
-  private static final SimpleDateFormat dateFormat = new SimpleDateFormat(
-      "MM/dd/yyyy");
-  private static final SimpleDateFormat timeFormat = new SimpleDateFormat(
-      "hh:mm:ss a");
+  private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+  private static final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
 
   private JToolBar jtb = new JToolBar();
 
@@ -104,14 +102,12 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
   {
     super(title);
 
-    UIManager.LookAndFeelInfo[] installedLooks = UIManager
-        .getInstalledLookAndFeels();
+    UIManager.LookAndFeelInfo[] installedLooks = UIManager.getInstalledLookAndFeels();
 
     looks = new JRadioButtonMenuItem[installedLooks.length];
 
     /* Create actions for common menu and toolbar items */
-    Action openAction = new AbstractAction(null,
-        new ImageIcon(ClassLoader.getSystemResource("images/open.gif"))) {
+    Action openAction = new AbstractAction(null, new ImageIcon(ClassLoader.getSystemResource("images/open.gif"))) {
       public void actionPerformed(ActionEvent evt)
       {
         jfc = new JFileChooser();
@@ -127,27 +123,24 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
           if (file != null && file.getName().endsWith(".class"))
             jsp.setViewportView(getTree(file));
           else
-            JOptionPane.showMessageDialog(ClassViewerFrame.this,
-                "Invalid file selected!", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(ClassViewerFrame.this, "Invalid file selected!", "Error",
+                JOptionPane.ERROR_MESSAGE);
         }
       }
     };
 
-    Action exitAction = new AbstractAction(null,
-        new ImageIcon(ClassLoader.getSystemResource("images/exit.gif"))) {
+    Action exitAction = new AbstractAction(null, new ImageIcon(ClassLoader.getSystemResource("images/exit.gif"))) {
       public void actionPerformed(ActionEvent evt)
       {
-        dispatchEvent(
-            new WindowEvent(ClassViewerFrame.this, WindowEvent.WINDOW_CLOSING));
+        dispatchEvent(new WindowEvent(ClassViewerFrame.this, WindowEvent.WINDOW_CLOSING));
       }
     };
 
-    Action aboutAction = new AbstractAction(null,
-        new ImageIcon(ClassLoader.getSystemResource("images/help.gif"))) {
+    Action aboutAction = new AbstractAction(null, new ImageIcon(ClassLoader.getSystemResource("images/help.gif"))) {
       public void actionPerformed(ActionEvent evt)
       {
         JOptionPane.showMessageDialog(ClassViewerFrame.this,
-            "<html><center>ClassViewer Application<br>Pat Paternostro<br>Copyright &copy; 2004-2008</center></html>",
+            "<html><center>ClassViewer Application<br>Pat Paternostro<br>Copyright &copy; 2004-2021</center></html>",
             "About ClassViewer", JOptionPane.INFORMATION_MESSAGE);
       }
     };
@@ -235,8 +228,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     /* Set accelerators */
     open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
     exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
-    about
-        .setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+    about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
 
     /* Add menus to menubar */
     mb.add(file);
@@ -345,8 +337,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       }
       catch (final Throwable th)
       {
-        JOptionPane.showMessageDialog(ClassViewerFrame.this, th.getMessage(),
-            "Error", JOptionPane.ERROR_MESSAGE);
+        JOptionPane.showMessageDialog(ClassViewerFrame.this, th.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
   }
@@ -382,8 +373,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
-          JOptionPane.showMessageDialog(ClassViewerFrame.this,
-              cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(ClassViewerFrame.this, cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
     }
@@ -404,8 +394,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
-          JOptionPane.showMessageDialog(ClassViewerFrame.this,
-              cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+          JOptionPane.showMessageDialog(ClassViewerFrame.this, cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
     }
@@ -416,11 +405,9 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
   private JTree getTreeFromClass(Class<?> c)
   {
     DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode();
-    DefaultMutableTreeNode constructorNode = new DefaultMutableTreeNode(
-        "Constructors");
+    DefaultMutableTreeNode constructorNode = new DefaultMutableTreeNode("Constructors");
     DefaultMutableTreeNode methodNode = new DefaultMutableTreeNode("Methods");
-    DefaultMutableTreeNode attributeNode = new DefaultMutableTreeNode(
-        "Attributes");
+    DefaultMutableTreeNode attributeNode = new DefaultMutableTreeNode("Attributes");
     JTree classTree = new JTree(rootNode);
     Class<?> interfaces[] = null;
 
@@ -432,8 +419,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     Field fields[] = c.getDeclaredFields();
 
     /* Build the class signature */
-    StringBuffer sb = new StringBuffer(150)
-        .append(Modifier.toString(c.getModifiers()))
+    StringBuffer sb = new StringBuffer(150).append(Modifier.toString(c.getModifiers()))
         .append(c.isInterface() ? " " : " class ").append(c.getName());
 
     if (c.getSuperclass() != null)
@@ -481,8 +467,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       sb.append(Modifier.toString(member[i].getModifiers())).append(" ");
 
       if (member instanceof Method[])
-        sb.append(getTypeName(((Method) member[i]).getReturnType()))
-            .append(" ");
+        sb.append(getTypeName(((Method) member[i]).getReturnType())).append(" ");
       else if (member instanceof Field[])
         sb.append(getTypeName(((Field) member[i]).getType())).append(" ");
 
@@ -490,12 +475,10 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
       if (!(member instanceof Field[]))
       {
-        param = member instanceof Constructor<?>[]
-            ? ((Constructor<?>) member[i]).getParameterTypes()
+        param = member instanceof Constructor<?>[] ? ((Constructor<?>) member[i]).getParameterTypes()
             : ((Method) member[i]).getParameterTypes();
 
-        except = member instanceof Constructor<?>[]
-            ? ((Constructor<?>) member[i]).getExceptionTypes()
+        except = member instanceof Constructor<?>[] ? ((Constructor<?>) member[i]).getExceptionTypes()
             : ((Method) member[i]).getExceptionTypes();
 
         sb.append("(");

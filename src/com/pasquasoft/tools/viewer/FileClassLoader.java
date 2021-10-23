@@ -28,8 +28,7 @@ class FileClassLoader extends ClassLoader
     }
 
     /* Build the dependent class's fully-qualified path name */
-    return root != null
-        ? root + name.replace('.', File.separator.charAt(0)) + ".class"
+    return root != null ? root + name.replace('.', File.separator.charAt(0)) + ".class"
         : (path != null ? (path + File.separator + name + ".class") : name);
   }
 
