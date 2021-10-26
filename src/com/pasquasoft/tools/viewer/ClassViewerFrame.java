@@ -2,7 +2,6 @@ package com.pasquasoft.tools.viewer;
 
 import java.awt.BorderLayout;
 import java.awt.Container;
-import java.awt.Event;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -226,9 +225,9 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     about.setMnemonic(KeyEvent.VK_A);
 
     /* Set accelerators */
-    open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, Event.CTRL_MASK));
-    exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, Event.CTRL_MASK));
-    about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, Event.CTRL_MASK));
+    open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
+    exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
+    about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
 
     /* Add menus to menubar */
     mb.add(file);
