@@ -226,8 +226,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
     /* Set accelerators */
     open.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, ActionEvent.CTRL_MASK));
-    exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X, ActionEvent.CTRL_MASK));
-    about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_A, ActionEvent.CTRL_MASK));
+    exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_E, ActionEvent.CTRL_MASK));
+    about.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_B, ActionEvent.CTRL_MASK));
 
     /* Add menus to menubar */
     mb.add(file);
@@ -393,6 +393,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
+          jcb.removeItemAt(jcb.getSelectedIndex());
+          jcb.setSelectedIndex(-1);
           JOptionPane.showMessageDialog(ClassViewerFrame.this, cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
