@@ -393,8 +393,11 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       SwingUtilities.invokeLater(new Runnable() {
         public void run()
         {
-          jcb.removeItemAt(jcb.getSelectedIndex());
+          int index = jcb.getSelectedIndex();
+
           jcb.setSelectedIndex(-1);
+          jcb.removeItemAt(index);
+
           JOptionPane.showMessageDialog(ClassViewerFrame.this, cnfe.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
         }
       });
