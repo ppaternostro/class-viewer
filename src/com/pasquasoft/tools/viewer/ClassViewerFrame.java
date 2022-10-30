@@ -446,13 +446,22 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
     /* Add the nodes to the root node */
     if (constructors.length != 0)
+    {
+      constructorNode.setUserObject(constructorNode + String.format(" (%d)", constructors.length));
       rootNode.add(constructorNode);
+    }
 
     if (methods.length != 0)
+    {
+      methodNode.setUserObject(methodNode + String.format(" (%d)", methods.length));
       rootNode.add(methodNode);
+    }
 
     if (fields.length != 0)
+    {
+      attributeNode.setUserObject(attributeNode + String.format(" (%d)", fields.length));
       rootNode.add(attributeNode);
+    }
 
     /* Ensure root node is expanded */
     classTree.expandRow(0);
@@ -506,7 +515,7 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
         }
       }
 
-      node.add(new DefaultMutableTreeNode(sb.toString()));
+      node.add(new DefaultMutableTreeNode(sb.toString().trim()));
 
       sb.setLength(0);
     }
