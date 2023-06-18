@@ -44,6 +44,9 @@ import javax.swing.JTree;
 import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.PlainDocument;
 import javax.swing.tree.DefaultMutableTreeNode;
 
 class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
@@ -120,7 +123,16 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
           File file = jfc.getSelectedFile();
 
           if (file != null && file.getName().endsWith(".class"))
-            jsp.setViewportView(getTree(file));
+          {
+            try
+            {
+              jsp.setViewportView(getTree(file));
+            }
+            finally
+            {
+              jcb.setSelectedIndex(-1);
+            }
+          }
           else
             JOptionPane.showMessageDialog(ClassViewerFrame.this, "Invalid file selected!", "Error",
                 JOptionPane.ERROR_MESSAGE);
@@ -243,7 +255,18 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     jtf.addActionListener(this);
     jcb.addItemListener(this);
 
-    /* Set the state of the Toolbar menu item */
+    jtf.setDocument(new PlainDocument() {
+      @Override
+      public void insertString(int offs, String str, AttributeSet a) throws BadLocationException
+      {
+        if (!str.contains(" "))
+        {
+          super.insertString(offs, str, a);
+        }
+      }
+    });
+
+    /* Set the state of the toolbar menu item */
     tool.setState(true);
 
     /* Add the window listener */
@@ -318,9 +341,19 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
       if (!name.equals(""))
       {
+        int index = itemIndex(name);
         jtf.setText("");
-        jcb.insertItemAt(name, 0);
-        jcb.setSelectedIndex(0);
+
+        if (itemIndex(name) == -1)
+        {
+          jcb.insertItemAt(name, 0);
+          jcb.setSelectedIndex(0);
+        }
+        else
+        {
+          jcb.setSelectedIndex(index);
+        }
+
       }
     }
     else if (obj instanceof JRadioButtonMenuItem)
@@ -339,6 +372,23 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
         JOptionPane.showMessageDialog(ClassViewerFrame.this, th.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
       }
     }
+  }
+
+  private int itemIndex(String name)
+  {
+    int index = -1;
+    int count = jcb.getItemCount();
+
+    for (int i = 0; i < count; i++)
+    {
+      if (name.equals(jcb.getItemAt(i)))
+      {
+        index = i;
+        break;
+      }
+    }
+
+    return index;
   }
 
   public void itemStateChanged(final ItemEvent evt)
