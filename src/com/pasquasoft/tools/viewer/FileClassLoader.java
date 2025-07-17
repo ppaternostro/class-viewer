@@ -26,7 +26,7 @@ class FileClassLoader extends ClassLoader
 
       /* Locate the parsed string in the path and derive the root name */
       if (path != null)
-        root = path.substring(0, path.indexOf(start));
+        root = path.substring(0, path.indexOf(start + "/"));
     }
 
     /* Build the dependent class's fully-qualified path name */
