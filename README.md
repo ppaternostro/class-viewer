@@ -12,10 +12,10 @@ By default, the cursor is placed in the edit box. Enter a fully qualified Java c
 ![Before Image](https://user-images.githubusercontent.com/32653184/198866658-cae3211e-870f-4d69-a1ff-7bdba91b0206.png)
 ![After Image](https://user-images.githubusercontent.com/32653184/198866553-33bc9cf7-d788-48c1-b80c-9b118ec1ec70.png)
 
-Note, the window on the bottom lists the entered Java class name in the drop down listbox located directly beneath the edit box. This facilitates selection of any previously entered class name without having to retype the same class name in the edit box. The output is rendered as a tree view with the class's constructors, methods and attributes rendered as leaf nodes under the class definition root node. Class names not found on the classpath will display an error message. Class files (files ending in a **.class** extension) not on the classpath may be selected via the **File->Open...** menu item with the output rendered as previously described.
+Note, the window on the bottom lists the entered Java class name in the drop down listbox located directly beneath the edit box. This facilitates selection of any previously entered class name without having to retype the same class name in the edit box. The output is rendered as a tree view with the class's constructors, methods and attributes rendered as leaf nodes under the class definition root node. Class names not found on the classpath will display an error message and will not be added to the drop down listbox. Class files (files ending in a **.class** extension) not on the classpath may be selected via the **File->Open...** menu item with the output rendered as previously described.
 
 ## Update
-The [Byte Buddy](https://bytebuddy.net/#/) project was added as a dependency to this project in order to create  _placeholder_  classes that are not found on the classpath or derivable from the custom file class loader when using the utility's **File->Open...** feature. This allows the utility to display the tree output without causing an error. When the output displays a non-fully qualified class name that is a signal that **Byte Buddy** was used to create and load a  _placeholder_  class. The project has also been  _Mavenized_  and as such can be built via the following executed from a terminal window
+The [Byte Buddy](https://bytebuddy.net/#/) project was added as a dependency to this project in order to create  _placeholder_  classes that are not found on the classpath or derivable from the custom file class loader when using the utility's **File->Open...** feature. This allows the utility to display the tree output without causing an error. When the output displays a non-fully qualified class name, that is a signal that **Byte Buddy** was used to create and load a  _placeholder_  class. The project has also been  _Mavenized_  and as such can be built via the following executed from a terminal window
 
 ```bash
 mvnw package
@@ -29,7 +29,7 @@ or
 
 on MacOS/Linux environments.
 
-The command will create the following 2 JAR files in the project's root folder **target** directory.
+The command will create the following two JAR files in the project's root folder **target** directory.
 
 - class-viewer-0.0.1-SNAPSHOT.jar
 - class-viewer-0.0.1-SNAPSHOT-jar-with-dependencies.jar
