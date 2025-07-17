@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 
+import net.bytebuddy.ByteBuddy;
+
 class FileClassLoader extends ClassLoader
 {
   private String path;
@@ -34,7 +36,24 @@ class FileClassLoader extends ClassLoader
 
   public Class<?> findClass(String name) throws ClassNotFoundException
   {
-    return loadClassBytes(new File(derivePath(name)));
+    Class<?> derivedClass;
+
+    try
+    {
+      derivedClass = loadClassBytes(new File(derivePath(name)));
+    }
+    catch (ClassNotFoundException cnfe)
+    {
+      if (name.indexOf('.') != -1)
+      {
+        throw cnfe;
+      }
+
+      derivedClass = new ByteBuddy().subclass(Object.class).name(name).make().load(getClass().getClassLoader())
+          .getLoaded();
+    }
+
+    return derivedClass;
   }
 
   public Class<?> loadClassBytes(File f) throws ClassNotFoundException
