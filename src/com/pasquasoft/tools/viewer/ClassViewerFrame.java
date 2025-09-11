@@ -99,7 +99,6 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
   private Date current = new Date();
 
-  @SuppressWarnings("serial")
   public ClassViewerFrame(String title)
   {
     super(title);
