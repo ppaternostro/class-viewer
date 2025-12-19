@@ -20,6 +20,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.prefs.Preferences;
 
 import javax.swing.AbstractAction;
 import javax.swing.AbstractButton;
@@ -58,6 +59,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
   private static final SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm:ss a");
+
+  private static final String LOOK_AND_FEEL = "laf";
 
   private JToolBar jtb = new JToolBar();
 
@@ -99,13 +102,43 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
   private Date current = new Date();
 
+  private Preferences prefs;
+
   public ClassViewerFrame(String title)
   {
     super(title);
 
+    prefs = Preferences.userNodeForPackage(ClassViewerFrame.class);
+
     UIManager.LookAndFeelInfo[] installedLooks = UIManager.getInstalledLookAndFeels();
 
     looks = new JRadioButtonMenuItem[installedLooks.length];
+
+    String defaultLaf = UIManager.getLookAndFeel().getName();
+
+    defaultLaf = prefs.get(LOOK_AND_FEEL, defaultLaf);
+
+    /*
+     * Create menu items, add action listener, set the action command to the
+     * Look and Feel class name, set selected menu item, and add to Look and
+     * Feel menu and group.
+     */
+    for (int i = 0; i < looks.length; i++)
+    {
+      String installedLaf = installedLooks[i].getName();
+
+      looks[i] = new JRadioButtonMenuItem(installedLaf);
+      looks[i].addActionListener(this);
+      looks[i].setActionCommand(installedLooks[i].getClassName());
+
+      if (installedLaf.equals(defaultLaf))
+      {
+        looks[i].setSelected(true);
+      }
+
+      looksGroup.add(looks[i]);
+      look.add(looks[i]);
+    }
 
     /* Create actions for common menu and toolbar items */
     Action openAction = new AbstractAction(null, new ImageIcon(ClassLoader.getSystemResource("images/open.gif"))) {
@@ -186,28 +219,6 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     /* Set the toolbar fixed */
     jtb.setFloatable(false);
 
-    String defaultLaf = UIManager.getLookAndFeel().getName();
-
-    /*
-     * Create menu items, add action listener, set the action command to the
-     * Look and Feel class name, set selected menu item, and add to Look and
-     * Feel menu and group.
-     */
-    for (int i = 0; i < looks.length; i++)
-    {
-      String installedLaf = installedLooks[i].getName();
-
-      looks[i] = new JRadioButtonMenuItem(installedLaf);
-      looks[i].addActionListener(this);
-      looks[i].setActionCommand(installedLooks[i].getClassName());
-
-      if (installedLaf.equals(defaultLaf))
-        looks[i].setSelected(true);
-
-      looksGroup.add(looks[i]);
-      look.add(looks[i]);
-    }
-
     /* Add menu items to menus */
     open.setAction(openAction);
     file.add(open);
@@ -276,6 +287,16 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
         System.exit(0);
       }
     });
+
+    /* Determine selected look and feel and ensure it's applied */
+    for (JRadioButtonMenuItem item : looks)
+    {
+      if (item.isSelected())
+      {
+        item.doClick();
+        break;
+      }
+    }
 
     /* Size the frame */
     setSize(400, 300);
@@ -363,7 +384,10 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
          * The radio button menu item's action command is set to the associated
          * Look and Feel class name.
          */
-        UIManager.setLookAndFeel(((AbstractButton) obj).getActionCommand());
+        AbstractButton ab = ((AbstractButton) obj);
+        UIManager.setLookAndFeel(ab.getActionCommand());
+        prefs.put(LOOK_AND_FEEL, ab.getText());
+        prefs.flush();
         SwingUtilities.updateComponentTreeUI(ClassViewerFrame.this);
       }
       catch (final Throwable th)
