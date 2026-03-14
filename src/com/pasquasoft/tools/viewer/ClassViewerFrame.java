@@ -1,7 +1,9 @@
 package com.pasquasoft.tools.viewer;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Container;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -92,7 +94,32 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
 
   private JTextField jtf = new JTextField(10);
 
-  private JPanel panel = new JPanel();
+  private JPanel panel = new JPanel(new GridLayout(2, 1, 5, 5)) {
+    @Override
+    public Dimension getPreferredSize()
+    {
+      Dimension pref = super.getPreferredSize();
+      Container parent = getParent();
+
+      if (parent != null)
+      {
+        // Calculate remaining space: toolbar width - sum of other components
+        int otherWidths = 0;
+
+        for (Component c : parent.getComponents())
+        {
+          if (c != this)
+          {
+            otherWidths += c.getPreferredSize().width;
+          }
+        }
+
+        return new Dimension(parent.getWidth() - otherWidths - 10, pref.height);
+      }
+
+      return pref;
+    }
+  };
 
   private ButtonGroup looksGroup = new ButtonGroup();
 
@@ -198,7 +225,6 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
     cp.add(BorderLayout.CENTER, jsp);
 
     /* Add components to panel */
-    panel.setLayout(new GridLayout(2, 2, 5, 5));
     panel.add(jtf);
     panel.add(jcb);
 
