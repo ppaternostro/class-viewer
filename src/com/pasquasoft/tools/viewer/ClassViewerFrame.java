@@ -210,8 +210,8 @@ class ClassViewerFrame extends JFrame implements ActionListener, ItemListener
       public void actionPerformed(ActionEvent evt)
       {
         JOptionPane.showMessageDialog(ClassViewerFrame.this,
-            "<html><center>ClassViewer Application<br>Pat Paternostro<br>Copyright &copy; 2004-2021</center></html>",
-            "About ClassViewer", JOptionPane.INFORMATION_MESSAGE);
+            "<html><center>Class Viewer Application<br>Pat Paternostro<br>Copyright &copy; 2004-2026</center></html>",
+            "About Class Viewer", JOptionPane.INFORMATION_MESSAGE);
       }
     };
 
